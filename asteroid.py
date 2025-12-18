@@ -34,7 +34,7 @@ class Asteroid(circleshape.CircleShape):
             
             explo_particle3_new_rotation = self.velocity.rotate(explo_particle3_random_angle)
             explo_particle3 = explosionparticle.ExplosionParticle(self.position.x, self.position.y)
-            explo_particle3.velocity = explo_particle1_new_rotation * 0.8
+            explo_particle3.velocity = explo_particle3_new_rotation * 0.8
 
             explo_particle4_new_rotation = self.velocity.rotate(-explo_particle1_random_angle)
             explo_particle4 = explosionparticle.ExplosionParticle(self.position.x, self.position.y)
