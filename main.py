@@ -4,8 +4,10 @@ import player
 import asteroid
 import asteroidfield
 import shot
+import explosionparticle
 from constants import SCREEN_WIDTH
 from constants import SCREEN_HEIGHT
+from constants import EXPLOSION_PARTICLE_LIFE
 from logger import log_state
 from logger import log_event
 
@@ -23,11 +25,13 @@ def main():
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
+    explosion_particles = pygame.sprite.Group()
 
     player.Player.containers = (updatable, drawable)
     asteroid.Asteroid.containers = (asteroids, updatable, drawable)
     asteroidfield.AsteroidField.containers = (updatable)
     shot.Shot.containers = (shots, updatable, drawable)
+    explosionparticle.ExplosionParticle.containers = (explosion_particles,drawable,updatable)
 
     game_player = player.Player(SCREEN_WIDTH /2,SCREEN_HEIGHT /2)
 
@@ -54,6 +58,10 @@ def main():
                     log_event("asteroid_shot")
                     asteroid_obj.split()
                     shot_obj.kill()
+
+        for explo_part_obj in explosion_particles:
+            if explo_part_obj.current_life_length >= EXPLOSION_PARTICLE_LIFE:
+                explo_part_obj.kill()
 
         for draw_able in drawable:
             draw_able.draw(screen)
