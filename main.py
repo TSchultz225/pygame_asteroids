@@ -22,6 +22,7 @@ def main():
     print(f"Screen height: {SCREEN_HEIGHT}")
 
     score = 0
+    asteroids_shot = 0
 
     game_clock = pygame.time.Clock()
     dt = 0
@@ -41,9 +42,9 @@ def main():
     game_player = player.Player(SCREEN_WIDTH /2,SCREEN_HEIGHT /2)
 
     asteroid_field = asteroidfield.AsteroidField()
-
+    playerDead = False
     #GAME LOOP
-    while True:
+    while playerDead!= True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
@@ -56,7 +57,8 @@ def main():
                 log_event("player_hit")
                 print("Game over!")
                 print(f"{score}")
-                sys.exit()
+                playerDead = True
+                
                 
         score += dt
 
@@ -67,6 +69,7 @@ def main():
                     asteroid_obj.split()
                     shot_obj.kill()
                     score += ASTEROID_POINT_VALUE
+                    asteroids_shot += 1
 
         for explo_part_obj in explosion_particles:
             if explo_part_obj.current_life_length >= EXPLOSION_PARTICLE_LIFE:
@@ -74,10 +77,21 @@ def main():
 
         for draw_able in drawable:
             draw_able.draw(screen)
-        screen.blit(text_surface, (SCREEN_WIDTH / 2.4 , 0))
+        if playerDead!=True:
+            screen.blit(text_surface, (SCREEN_WIDTH / 2.4 , 0))
         pygame.display.flip()
         
-        dt = game_clock.tick(60) / 1000
+        dt = game_clock.tick (60) / 1000
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+        text_surface = my_font.render(f"Score: {math.floor(score)}", False, (180, 180, 180))
+        text_surface2 = my_font.render(f"Asteroids Shot: {asteroids_shot}", False, (180, 180, 180))
+        screen.blit(text_surface, (SCREEN_WIDTH / 2.4 , SCREEN_HEIGHT / 2.2 ))
+        screen.blit(text_surface2, (SCREEN_WIDTH / 2.4 , SCREEN_HEIGHT / 1.8 ))
+        pygame.display.flip()
 
 if __name__ == "__main__":
     main()
