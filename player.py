@@ -27,7 +27,7 @@ class Player(circleshape.CircleShape):
     def update(self, dt):
         keys = pygame.key.get_pressed()
         self.shot_cooldown -= dt
-        
+
         if keys[pygame.K_a]:
             self.rotate(dt*-1)
         if keys[pygame.K_d]:
@@ -56,4 +56,3 @@ class Player(circleshape.CircleShape):
         rotated_velocity_vector = velocity_vector.rotate(self.rotation)
         shoot_speed_vector = rotated_velocity_vector * constants.PLAYER_SHOOT_SPEED
         bullet_shot.velocity = shoot_speed_vector
-        print (bullet_shot.velocity)
